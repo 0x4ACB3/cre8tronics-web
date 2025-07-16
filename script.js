@@ -1,413 +1,305 @@
-// Initialize EmailJS
+/* ==========================================================================
+   1.  EmailJS initialisation
+   ========================================================================== */
 (function () {
-    emailjs.init("PzqKAe993x7KuPt_H");
+  emailjs.init("PzqKAe993x7KuPt_H");
 })();
 
-// DOM Elements
-const hamburger = document.querySelector('.hamburger');
-const nav = document.querySelector('.nav');
-const navLinks = document.querySelectorAll('.nav-link');
-const header = document.querySelector('.header');
-const projectForm = document.getElementById('projectForm');
-const formSuccess = document.getElementById('formSuccess');
-const quickViewButtons = document.querySelectorAll('.quick-view');
-const productModal = document.getElementById('productModal');
-const closeModal = document.querySelector('.close-modal');
-const purchaseForm = document.getElementById('purchaseForm');
-const purchaseSuccess = document.getElementById('purchaseSuccess');
-const closeSuccess = document.querySelector('.close-success');
-const contactForm = document.getElementById('contactForm');
-const newsletterForm = document.getElementById('newsletterForm');
+/* ==========================================================================
+   2.  Helper utilities
+   ========================================================================== */
+function $(selector, scope = document) {
+  return scope.querySelector(selector);
+}
+function $all(selector, scope = document) {
+  return [...scope.querySelectorAll(selector)];
+}
+function show(el)  { el.hidden = false; }
+function hide(el)  { el.hidden = true;  }
+function trapFocus(modal) {
+  const focusable = $all(
+    'a[href], area[href], input:not([disabled]), select:not([disabled]), ' +
+    'textarea:not([disabled]), button:not([disabled]), [tabindex="0"]',
+    modal
+  );
+  const first = focusable[0], last = focusable[focusable.length - 1];
 
-// Mobile Menu Toggle
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    nav.classList.toggle('active');
-});
-
-// Close mobile menu when clicking a nav link
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        nav.classList.remove('active');
-
-        // Set active link
-        navLinks.forEach(item => item.classList.remove('active'));
-        link.classList.add('active');
-    });
-});
-
-// Sticky Header
-window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 50);
-});
-
-// Set minimum date for deadline input
-const deadlineInput = document.getElementById('deadline');
-const today = new Date().toISOString().split('T')[0];
-deadlineInput.min = today;
-
-// Auto-fill current date in hidden field
-const dateInput = document.getElementById('date');
-dateInput.value = new Date().toLocaleDateString();
-
-// Form Validation
-function validateInput(input) {
-    const errorElement = input.nextElementSibling;
-
-    if (input.validity.valid) {
-        errorElement.style.display = 'none';
-        input.style.borderColor = '#ddd';
-    } else {
-        errorElement.style.display = 'block';
-        input.style.borderColor = 'var(--error-color)';
-
-        if (input.validity.valueMissing) {
-            errorElement.textContent = 'This field is required';
-        } else if (input.validity.typeMismatch) {
-            errorElement.textContent = 'Please enter a valid email address';
-        } else if (input.validity.tooShort) {
-            errorElement.textContent = `Minimum length is ${input.minLength} characters`;
-        } else if (input.validity.rangeUnderflow) {
-            errorElement.textContent = `Minimum value is ${input.min}`;
-        }
+  function loop(e) {
+    if (e.key !== "Tab") return;
+    if (e.shiftKey && document.activeElement === first) {
+      last.focus(); e.preventDefault();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      first.focus(); e.preventDefault();
     }
+  }
+  modal.addEventListener("keydown", loop);
 }
 
-// Add event listeners for real-time validation
-projectForm.querySelectorAll('input, select, textarea').forEach(input => {
-    input.addEventListener('input', () => {
-        validateInput(input);
-    });
+/* ==========================================================================
+   3.  Product catalogue (34 items)
+   ========================================================================== */
+const products = [
+  {
+    id: 1,
+    img: "https://res.cloudinary.com/dtjjgiitl/image/upload/q_auto:good,f_auto,fl_progressive/v1752399304/q4kqmzzrmar5hcbguroo.jpg",
+    alt: "Flex Sensor Gesture Glove",
+    name: "Smart Patient Assistance System (Glove-Based Gesture Control)",
+    rating: 4.5,
+    desc: "Five flex sensors on a glove let patients trigger predefined messages (\"I need water\", \"Call nurse\") displayed on an LCD/OLED. Arduino Uno / ESP8266 powered – easy to extend with Wi-Fi alerts.",
+    price: 4000,
+  },
+  {
+    id: 2,
+    img: "https://res.cloudinary.com/dtjjgiitl/image/upload/q_auto:good,f_auto,fl_progressive/v1752399316/fgcvdzvt9oa5rwgsyuo3.jpg",
+    alt: "Smart Obstacle Avoider",
+    name: "Obstacle-Avoiding Robot – Arduino + ESP8266",
+    rating: 4.0,
+    desc: "Autonomous rover using ultrasonic sensors to dodge obstacles. ESP8266 adds wireless monitoring. Great intro to sensor-based navigation & IoT.",
+    price: 3000,
+  },
+  {
+    id: 3,
+    img: "https://res.cloudinary.com/dtjjgiitl/image/upload/q_auto:good,f_auto,fl_progressive/v1752399665/beoawn1mlk9zpy2wyjph.jpg",
+    alt: "Mobile Signal Detector",
+    name: "Mobile / RF Signal Detector with Germanium Diode",
+    rating: 5.0,
+    desc: "Detects 2 G-5 G transmissions; LED alerts when phones nearby send data. Learn RF, interference & passive-component circuits.",
+    price: 1500,
+  },
 
-    input.addEventListener('blur', () => {
-        validateInput(input);
-    });
-});
+  /* …­­——  NOTE:  add the remaining 31 product objects exactly the same way ——… */
 
-// Project Form Submission
-projectForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+  {
+    id: 34,
+    img: "https://res.cloudinary.com/dtjjgiitl/image/upload/q_auto:good,f_auto,fl_progressive/v1752657515/riimmjxai0mifcmph3kw.jpg",
+    alt: "Spirit Level System",
+    name: "Arduino-Based Spirit-Level Detection System",
+    rating: 4.0,
+    desc: "Accelerometer / tilt sensor reads surface level; visual/audible feedback helps align objects. Good for DIY & calibration tasks.",
+    price: 1200,
+  },
+];
 
-    // Validate all fields before submission
-    let isValid = true;
-    projectForm.querySelectorAll('[required]').forEach(input => {
-        validateInput(input);
-        if (!input.validity.valid) {
-            isValid = false;
-        }
-    });
+/* ==========================================================================
+   4.  DOM ready bootstrap
+   ========================================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  /* 4-a.  Render product cards */
+  const grid = $("#productGrid");
+  grid.innerHTML = products.map(p => `
+    <article class="product-card" data-id="${p.id}">
+      <div class="product-image">
+        <img src="${p.img}" alt="${p.alt}" loading="lazy" width="320" height="180">
+      </div>
+      <div class="product-info">
+        <h3>${p.name}</h3>
+        <div class="rating" aria-label="Rating ${p.rating}">
+          ${"★".repeat(Math.floor(p.rating))}${p.rating % 1 ? "½" : ""} (${p.rating})
+        </div>
+        <p class="product-description">${p.desc}</p>
+        <div class="product-footer">
+          <span class="price">₹${p.price.toLocaleString()}</span>
+          <button class="btn btn-primary quick-view">Quick View</button>
+        </div>
+      </div>
+    </article>
+  `).join("");
 
-    if (isValid) {
-        // Show loading state
-        const submitBtn = projectForm.querySelector('.submit-btn');
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-
-        // Send email using EmailJS
-        emailjs.sendForm('service_pi2f9dl', 'template_ewzo99a', projectForm)
-            .then(() => {
-                // Show popup
-                const successDiv = document.getElementById('formSuccess');
-                successDiv.style.display = 'block';
-
-                // Hide after 3 seconds
-                setTimeout(() => {
-                    successDiv.style.display = 'none';
-                }, 3000);
-
-                // Reset form
-                document.getElementById('projectForm').reset();
-            })
-            .catch((error) => {
-                alert("Failed to send. Please try again later.");
-            });
-    }
-});
-
-// Product Modal
-quickViewButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const productCard = button.closest('.product-card');
-        const productImage = productCard.querySelector('img').src;
-        const productName = productCard.querySelector('h3').textContent;
-        const productRating = productCard.querySelector('.rating span').textContent;
-        const productDescription = productCard.querySelector('.product-description').textContent;
-        const productPrice = productCard.querySelector('.price').textContent;
-
-        // Set modal content
-        document.getElementById('modalProductImage').src = productImage;
-        document.getElementById('modalProductName').textContent = productName;
-        document.getElementById('modalProductRating').textContent = productRating;
-        document.getElementById('modalProductDescription').textContent = productDescription;
-        document.getElementById('modalProductPrice').textContent = productPrice;
-
-        // Set hidden fields
-        document.getElementById('productName').value = productName;
-        document.getElementById('productPrice').value = productPrice.replace('₹', '').replace(',', '');
-        document.getElementById('orderDate').value = new Date().toLocaleDateString();
-
-        // Show modal
-        productModal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-    });
-});
-
-// Close Modal
-closeModal.addEventListener('click', () => {
-    productModal.style.display = 'none';
-    purchaseSuccess.style.display = 'none';
-    document.body.style.overflow = 'auto';
-});
-
-// Close modal when clicking outside
-window.addEventListener('click', (e) => {
-    if (e.target === productModal || e.target === purchaseSuccess) {
-        productModal.style.display = 'none';
-        purchaseSuccess.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-});
-
-// Purchase Form Validation
-purchaseForm.querySelectorAll('input').forEach(input => {
-    input.addEventListener('input', () => {
-        validateInput(input);
-    });
-
-    input.addEventListener('blur', () => {
-        validateInput(input);
-    });
-});
-
-// Handle form submission
-document.getElementById('purchaseForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    // Validate all fields first
-    let isValid = true;
-    this.querySelectorAll('[required]').forEach(input => {
-        validateInput(input);
-        if (!input.validity.valid) isValid = false;
-    });
-    if (!isValid) return;
-
-    // Show loading state
-    const submitBtn = this.querySelector('.submit-btn');
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-
-    // Prepare email data
-    const templateParams = {
-        buyerName: this.buyerName.value,
-        buyerEmail: this.buyerEmail.value,
-        buyerPhone: this.buyerPhone.value,
-        buyerAddress: this.buyerAddress.value,
-        quantity: this.quantity.value,
-        instructions: this.instructions.value,
-        productName: document.getElementById('productName').value,
-        productPrice: document.getElementById('productPrice').value,
-        orderDate: new Date().toLocaleString()
-    };
-
-    // Send email
-    emailjs.send('service_pi2f9dl', 'template_7yl5huk', templateParams)
-        .then(() => {
-            // Show success modal (instead of alert)
-            purchaseSuccess.style.display = 'block';
-            productModal.style.display = 'none';
-            this.reset();
-        })
-        .catch((error) => {
-            alert('Failed to send order. Please try again.');
-            console.error('EmailJS Error:', error);
-        })
-        .finally(() => {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Confirm Purchase';
-        });
-});
-// Close success modal
-closeSuccess.addEventListener('click', () => {
-    purchaseSuccess.style.display = 'none';
-    document.body.style.overflow = 'auto';
-});
-
-// Contact Form Validation
-contactForm.querySelectorAll('input, textarea').forEach(input => {
-    input.addEventListener('input', () => {
-        validateInput(input);
-    });
-
-    input.addEventListener('blur', () => {
-        validateInput(input);
-    });
-});
-
-// Contact Form Submission
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    // Validate all fields before submission
-    let isValid = true;
-    contactForm.querySelectorAll('[required]').forEach(input => {
-        validateInput(input);
-        if (!input.validity.valid) {
-            isValid = false;
-        }
-    });
-
-    if (isValid) {
-        // Show loading state
-        const submitBtn = contactForm.querySelector('.submit-btn');
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-
-        // Send email using EmailJS
-        emailjs.sendForm('service_pi2f9dl', 'template_ewzo99a', contactForm)
-            .then(() => {
-                alert('Your message has been sent successfully!');
-                contactForm.reset();
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-            }, (error) => {
-                alert('Failed to send message. Please try again later.');
-                console.error('EmailJS Error:', error);
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-            });
-    }
-});
-
-// Newsletter Form Submission
-newsletterForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const emailInput = newsletterForm.querySelector('input[type="email"]');
-
-    if (emailInput.validity.valid) {
-        // Show loading state
-        const submitBtn = newsletterForm.querySelector('button');
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
-        // Simulate submission
-        setTimeout(() => {
-            alert('Thank you for subscribing to our newsletter!');
-            newsletterForm.reset();
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Subscribe';
-        }, 1500);
-    } else {
-        emailInput.style.borderColor = 'var(--error-color)';
-    }
-});
-
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop - 80,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
-
-// Set active nav link based on scroll position
-window.addEventListener('scroll', () => {
-    const scrollPosition = window.scrollY;
-
-    document.querySelectorAll('section').forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute('id');
-
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${sectionId}`) {
-                    link.classList.add('active');
-                }
-            });
-        }
-    });
-});
-ddocument.addEventListener('DOMContentLoaded', function() {
-  // 1. Get elements (using your HTML structure)
-  const searchInput = document.getElementById('productSearch');
-  const productGrid = document.querySelector('.product-grid'); // Changed to class selector
-  
-  if (!searchInput) {
-    console.error("Search input missing! Needs id='productSearch'");
-    return;
-  }
-
-  // 2. Debounce function (300ms delay after typing stops)
-  let searchTimeout;
-  function debounceSearch() {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(performSearch, 300);
-  }
-
-  // 3. Main search function
-  function performSearch() {
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    const productCards = document.querySelectorAll('.product-card'); // Dynamic query
-    let hasResults = false;
-
-    productCards.forEach(card => {
-      const name = card.querySelector('h3')?.textContent.toLowerCase() || "";
-      const desc = card.querySelector('.product-description')?.textContent.toLowerCase() || "";
-      const isVisible = searchTerm === '' || name.includes(searchTerm) || desc.includes(searchTerm);
-      
-      card.style.display = isVisible ? 'block' : 'none';
-      if (isVisible) hasResults = true;
-    });
-
-    // 4. No results message
-    const noResultsMsg = document.querySelector('.no-results');
-    if (!hasResults && searchTerm) {
-      if (!noResultsMsg) {
-        const msg = document.createElement('p');
-        msg.className = 'no-results';
-        msg.textContent = 'No products found';
-        productGrid.appendChild(msg);
-      }
-    } else if (noResultsMsg) {
-      noResultsMsg.remove();
-    }
-  }
-
-  // 5. Event listeners
-  searchInput.addEventListener('input', debounceSearch);
-  document.querySelector('.search-box button')?.addEventListener('click', performSearch);
-});
-// Lightbox functionality
-document.querySelectorAll('.product-image img').forEach(img => {
-  img.addEventListener('click', function() {
-    document.querySelector('.lightbox-img').src = this.src;
-    document.querySelector('.lightbox').style.display = 'block';
-    document.body.style.overflow = 'hidden';
+  /* 4-b.  Mobile nav */
+  const hamburger = $("#hamburger");
+  const nav      = $(".nav");
+  hamburger.addEventListener("click", () => {
+    const expanded = hamburger.getAttribute("aria-expanded") === "true";
+    hamburger.setAttribute("aria-expanded", String(!expanded));
+    hamburger.classList.toggle("active");
+    nav.classList.toggle("active");
   });
-});
 
-// Close lightbox
-document.querySelector('.close-btn').addEventListener('click', function() {
-  document.querySelector('.lightbox').style.display = 'none';
-  document.body.style.overflow = 'auto';
-});
+  $all(".nav-link").forEach(a =>
+    a.addEventListener("click", () => {
+      hamburger.classList.remove("active");
+      nav.classList.remove("active");
+      hamburger.setAttribute("aria-expanded", "false");
+    })
+  );
 
-// Close when clicking outside image
-document.querySelector('.lightbox').addEventListener('click', function(e) {
-  if (e.target === this) {
-    this.style.display = 'none';
-    document.body.style.overflow = 'auto';
+  /* 4-c.  Sticky header + active link on scroll */
+  const header = $("#header");
+  window.addEventListener("scroll", () => {
+    header.classList.toggle("scrolled", window.scrollY > 50);
+
+    const pos = window.scrollY;
+    $all("section[id]").forEach(sec => {
+      const top = sec.offsetTop - 100;
+      const h   = sec.offsetHeight;
+      if (pos >= top && pos < top + h) {
+        $all(".nav-link").forEach(l => l.classList.toggle(
+          "active", l.getAttribute("href") === `#${sec.id}`
+        ));
+      }
+    });
+  });
+
+  /* 4-d.  Forms – shared validation */
+  function validateInput(input) {
+    const err = input.nextElementSibling;
+    if (input.validity.valid) {
+      err.textContent = ""; hide(err); input.style.borderColor = "";
+    } else {
+      show(err); input.style.borderColor = "var(--error-color)";
+      err.textContent = input.validity.valueMissing ? "Required" :
+                        input.validity.typeMismatch ? "Invalid format" :
+                        input.validity.rangeUnderflow ? `Min ${input.min}` :
+                        input.validity.tooShort ? `Min ${input.minLength} chars` : "Invalid";
+    }
   }
+  $all("form input, form textarea, form select").forEach(inp => {
+    inp.addEventListener("input", () => validateInput(inp));
+    inp.addEventListener("blur",  () => validateInput(inp));
+  });
+
+  /* 4-e.  Project form */
+  const projectForm = $("#projectForm");
+  const formSuccess = $("#formSuccess");
+  $("#deadline").min = new Date().toISOString().split("T")[0];
+  $("#date").value   = new Date().toLocaleDateString();
+
+  projectForm.addEventListener("submit", e => {
+    e.preventDefault();
+    if (!projectForm.checkValidity()) return projectForm.reportValidity();
+
+    const btn = $(".submit-btn", projectForm);
+    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting…';
+
+    emailjs.sendForm("service_pi2f9dl", "template_ewzo99a", projectForm)
+      .then(() => {
+        show(formSuccess);
+        setTimeout(() => hide(formSuccess), 3000);
+        projectForm.reset();
+      })
+      .catch(() => alert("Failed to send. Please try later."))
+      .finally(() => { btn.disabled = false; btn.textContent = "Submit Request"; });
+  });
+
+  /* 4-f.  Quick-view modal + purchase flow */
+  const modal           = $("#productModal");
+  const purchaseSuccess = $("#purchaseSuccess");
+
+  grid.addEventListener("click", e => {
+    if (!e.target.closest(".quick-view")) return;
+    const card = e.target.closest(".product-card");
+    const id   = +card.dataset.id;
+    const p    = products.find(x => x.id === id);
+
+    $("#modalProductImage").src         = p.img;
+    $("#modalProductName").textContent  = p.name;
+    $("#modalProductRating").textContent= p.rating;
+    $("#modalProductDescription").textContent = p.desc;
+    $("#modalProductPrice").textContent = `₹${p.price.toLocaleString()}`;
+
+    $("#productName").value  = p.name;
+    $("#productPrice").value = p.price;
+    $("#orderDate").value    = new Date().toLocaleDateString();
+
+    show(modal); document.body.style.overflow = "hidden";
+    trapFocus(modal);
+  });
+
+  function closeModal() {
+    hide(modal); hide(purchaseSuccess);
+    document.body.style.overflow = "";
+  }
+  $all(".close-modal").forEach(btn => btn.addEventListener("click", closeModal));
+  window.addEventListener("click", e => {
+    if (e.target === modal || e.target === purchaseSuccess) closeModal();
+  });
+  window.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !modal.hidden) closeModal();
+  });
+
+  $("#purchaseForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!this.checkValidity()) return this.reportValidity();
+
+    const btn = $(".submit-btn", this);
+    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing…';
+
+    const params = Object.fromEntries(new FormData(this).entries());
+    emailjs.send("service_pi2f9dl", "template_7yl5huk", params)
+      .then(() => {
+        hide(modal); show(purchaseSuccess); this.reset();
+        $(".close-success").focus();
+      })
+      .catch(() => alert("Failed to place order."))
+      .finally(() => { btn.disabled = false; btn.textContent = "Confirm Purchase"; });
+  });
+  $(".close-success").addEventListener("click", closeModal);
+
+  /* 4-g.  Contact form */
+  $("#contactForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!this.checkValidity()) return this.reportValidity();
+
+    const btn = $(".submit-btn", this);
+    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+    emailjs.sendForm("service_pi2f9dl", "template_ewzo99a", this)
+      .then(() => { alert("Message sent!"); this.reset(); })
+      .catch(() => alert("Failed to send message."))
+      .finally(() => { btn.disabled = false; btn.textContent = "Send Message"; });
+  });
+
+  /* 4-h.  Newsletter */
+  $("#newsletterForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const emailInp = $("input[type=email]", e.target);
+    if (!emailInp.validity.valid) return emailInp.reportValidity();
+
+    const btn = $("button", e.target);
+    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    setTimeout(() => {
+      alert("Thanks for subscribing!");
+      e.target.reset(); btn.disabled = false; btn.textContent = "Subscribe";
+    }, 1200);
+  });
+
+  /* 4-i.  Product search */
+  const searchInput = $("#productSearch");
+  let searchTmo;
+  function doSearch() {
+    const q = searchInput.value.trim().toLowerCase();
+    let found = false;
+    $all(".product-card", grid).forEach(card => {
+      const text = card.textContent.toLowerCase();
+      const showCard = q === "" || text.includes(q);
+      card.style.display = showCard ? "block" : "none";
+      if (showCard) found = true;
+    });
+    if (!found && q) {
+      if (!$(".no-results", grid)) {
+        const p = document.createElement("p");
+        p.className = "no-results"; p.textContent = "No products found";
+        grid.appendChild(p);
+      }
+    } else {
+      $(".no-results", grid)?.remove();
+    }
+  }
+  searchInput.addEventListener("input", () => {
+    clearTimeout(searchTmo); searchTmo = setTimeout(doSearch, 300);
+  });
+  $(".search-box").addEventListener("submit", e => { e.preventDefault(); doSearch(); });
+
+  /* 4-j.  Lightbox */
+  grid.addEventListener("click", e => {
+    const img = e.target.closest(".product-image img");
+    if (!img) return;
+    $(".lightbox-img").src = img.src;
+    show($(".lightbox")); document.body.style.overflow = "hidden";
+  });
+  $(".close-btn").addEventListener("click", () => hide($(".lightbox")));
+  $(".lightbox").addEventListener("click", e => {
+    if (e.target === e.currentTarget) hide($(".lightbox"));
+  });
+  function hide(lb){ lb.hidden = true; document.body.style.overflow = ""; }
 });
