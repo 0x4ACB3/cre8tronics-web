@@ -7,39 +7,40 @@
   <title>Cre8Tonics – Custom Electronics Projects & Products</title>
 
   <!-- SEO & Social -->
-  <meta name="description" content="Cre8Tonics builds custom electronics projects and sells ready‑to‑use kits for makers, students and professionals – innovating electronics one project at a time." />
+  <meta name="description"
+        content="Cre8Tonics builds custom electronics projects and sells ready-to-use kits for makers, students and professionals – innovating electronics one project at a time." />
   <link rel="canonical" href="https://cre8tonics.tech/" />
   <meta property="og:title" content="Cre8Tonics – Custom Electronics Projects & Products" />
   <meta property="og:description" content="Innovating Electronics, One Project at a Time" />
-  <meta property="og:image" content="https://res.cloudinary.com/dtjjgiitl/image/upload/q_auto,f_auto/v1752399304/q4kqmzzrmar5hcbguroo.jpg" />
+  <meta property="og:image"
+        content="https://res.cloudinary.com/dtjjgiitl/image/upload/q_auto,f_auto/v1752399304/q4kqmzzrmar5hcbguroo.jpg" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://cre8tonics.tech/" />
 
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
   <!-- Styles -->
   <link rel="stylesheet" href="styles.css" />
 
   <!-- EmailJS (async) -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js" async></script>
-
-  <!-- Main JS -->
-  <script src="script.js" defer></script>
 </head>
 
 <body>
-  <!-- ========== HEADER ========= -->
+  <!-- ========= HEADER ========= -->
   <header class="header" id="header">
     <div class="container">
       <a href="#" class="logo">Cre8<span>Tonics</span></a>
+
       <nav class="nav" aria-label="Primary Navigation">
-        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="primary-menu" aria-expanded="false">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
+        <button class="hamburger" id="hamburger" aria-label="Open menu"
+                aria-controls="primary-menu" aria-expanded="false">
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
         </button>
+
         <ul class="nav-list" id="primary-menu">
           <li><a href="#home" class="nav-link active">Home</a></li>
           <li><a href="#projects" class="nav-link">Projects</a></li>
@@ -50,11 +51,12 @@
     </div>
   </header>
 
-  <!-- ========== MAIN ========= -->
+  <!-- ========= MAIN ========= -->
   <main id="main-content">
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section id="home" class="hero">
       <div class="hero-bg-image" aria-hidden="true"></div>
+
       <div class="container hero-content">
         <h1>Cre8Tonics</h1>
         <h2>Custom Project Request &amp; Products</h2>
@@ -64,10 +66,11 @@
           <a href="#products" class="btn btn-secondary">View Products</a>
         </div>
       </div>
+
       <div class="particles" aria-hidden="true"></div>
     </section>
 
-    <!-- Project Request Section -->
+    <!-- Project Request -->
     <section id="projects" class="project-request">
       <div class="container">
         <h2 class="section-title">Custom Project Request</h2>
@@ -96,7 +99,9 @@
 
           <div class="form-group">
             <label for="address">Shipping/Delivery Address*</label>
-            <textarea id="address" name="address" rows="3" placeholder="Full address with PIN code" required autocomplete="shipping street-address"></textarea>
+            <textarea id="address" name="address" rows="3" required
+                      placeholder="Full address with PIN code"
+                      autocomplete="shipping street-address"></textarea>
             <span class="error-message" aria-live="polite"></span>
           </div>
 
@@ -141,16 +146,17 @@
         <div id="formSuccess" class="success-message" hidden>
           <i class="fas fa-check-circle" aria-hidden="true"></i>
           <h3>Request Submitted Successfully!</h3>
-          <p>Our team will contact you within 24 hours to discuss your project.</p>
+          <p>Our team will contact you within 24&nbsp;hours.</p>
         </div>
       </div>
     </section>
 
-    <!-- Search Bar -->
+    <!-- Search -->
     <div class="search-container">
       <div class="container">
         <form class="search-box" role="search" aria-label="Product search">
-          <input type="text" id="productSearch" placeholder="Search products..." autocomplete="off" />
+          <input type="text" id="productSearch"
+                 placeholder="Search products..." autocomplete="off" />
           <button type="submit" aria-label="Search">
             <i class="fas fa-search" aria-hidden="true"></i><span class="sr-only">Search</span>
           </button>
@@ -158,18 +164,18 @@
       </div>
     </div>
 
-    <!-- Products Section -->
+    <!-- Products -->
     <section id="products" class="products" aria-live="polite">
       <div class="container">
         <h2 class="section-title">Our Products</h2>
-        <p class="section-subtitle">High‑quality electronics for your projects</p>
-
+        <p class="section-subtitle">High-quality electronics for your projects</p>
         <div class="product-grid" id="productGrid"><!-- cards injected via JS --></div>
       </div>
     </section>
 
     <!-- Product Modal -->
-    <div id="productModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalProductName" hidden>
+    <div id="productModal" class="modal" role="dialog" aria-modal="true"
+         aria-labelledby="modalProductName" hidden>
       <div class="modal-content">
         <button class="close-modal" aria-label="Close product details">&times;</button>
         <div class="modal-body">
@@ -185,31 +191,36 @@
             <form id="purchaseForm" class="purchase-form" autocomplete="on" novalidate>
               <div class="form-group">
                 <label for="buyerName">Your Name*</label>
-                <input type="text" id="buyerName" name="buyerName" required autocomplete="name" />
+                <input type="text" id="buyerName" name="buyerName"
+                       required autocomplete="name" />
                 <span class="error-message" aria-live="polite"></span>
               </div>
 
               <div class="form-group">
                 <label for="buyerEmail">Email*</label>
-                <input type="email" id="buyerEmail" name="buyerEmail" required autocomplete="email" />
+                <input type="email" id="buyerEmail" name="buyerEmail"
+                       required autocomplete="email" />
                 <span class="error-message" aria-live="polite"></span>
               </div>
 
               <div class="form-group">
                 <label for="buyerPhone">Phone*</label>
-                <input type="tel" id="buyerPhone" name="buyerPhone" required autocomplete="tel" />
+                <input type="tel" id="buyerPhone" name="buyerPhone" required
+                       autocomplete="tel" />
                 <span class="error-message" aria-live="polite"></span>
               </div>
 
               <div class="form-group">
                 <label for="buyerAddress">Full Address*</label>
-                <textarea id="buyerAddress" name="buyerAddress" rows="3" required autocomplete="shipping street-address"></textarea>
+                <textarea id="buyerAddress" name="buyerAddress" rows="3" required
+                          autocomplete="shipping street-address"></textarea>
                 <span class="error-message" aria-live="polite"></span>
               </div>
 
               <div class="form-group">
                 <label for="quantity">Quantity*</label>
-                <input type="number" id="quantity" name="quantity" min="1" value="1" required />
+                <input type="number" id="quantity" name="quantity" min="1"
+                       value="1" required />
                 <span class="error-message" aria-live="polite"></span>
               </div>
 
@@ -229,20 +240,21 @@
       </div>
     </div>
 
-    <!-- Purchase Success Modal -->
-    <div id="purchaseSuccess" class="modal success-modal" role="dialog" aria-modal="true" hidden>
+    <!-- Purchase Success -->
+    <div id="purchaseSuccess" class="modal success-modal" role="dialog" aria-modal="true"
+         hidden>
       <div class="modal-content">
         <button class="close-modal" aria-label="Close success message">&times;</button>
         <div class="success-content">
           <i class="fas fa-check-circle" aria-hidden="true"></i>
           <h3>Order Placed Successfully!</h3>
-          <p>Thank you for your purchase. We'll contact you shortly with payment and delivery details.</p>
+          <p>Thank you for your purchase. We'll contact you shortly.</p>
           <button class="btn btn-primary close-success">Continue Shopping</button>
         </div>
       </div>
     </div>
 
-    <!-- Contact Section -->
+    <!-- Contact -->
     <section id="contact" class="contact">
       <div class="container">
         <h2 class="section-title">Contact Us</h2>
@@ -251,48 +263,42 @@
         <div class="contact-grid">
           <div class="contact-info">
             <div class="info-item">
-              <i class="fas fa-envelope" aria-hidden="true"></i>
-              <div>
-                <h3>Email</h3>
-                <p><a href="mailto:cre8tonic.tech@gmail.com">cre8tonic.tech@gmail.com</a></p>
-              </div>
+              <i class="fas fa-envelope"></i>
+              <div><h3>Email</h3><p>cre8tonic.tech@gmail.com</p></div>
             </div>
-
             <div class="info-item">
-              <i class="fas fa-phone-alt" aria-hidden="true"></i>
-              <div>
-                <h3>Phone</h3>
-                <p><a href="tel:+918262854753">+91 82628 54753</a></p>
-              </div>
+              <i class="fas fa-phone-alt"></i>
+              <div><h3>Phone</h3><p>+91&nbsp;82628&nbsp;54753</p></div>
             </div>
-
             <div class="info-item">
-              <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-              <div>
-                <h3>Address</h3>
-                <p>TIPSY NATION, VIVANTA, LONI KALBHOR, PUNE 412201</p>
-              </div>
+              <i class="fas fa-map-marker-alt"></i>
+              <div><h3>Address</h3><p>TIPSY NATION, VIVANTA, Loni Kalbhor, Pune 412201</p></div>
             </div>
 
             <div class="social-links">
-              <a href="https://facebook.com" class="social-link" rel="noopener noreferrer"><i class="fab fa-facebook-f" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
-              <a href="https://www.instagram.com/inventor_vishu?igsh=aDRyNnlsYnFlMGZ5" class="social-link" rel="noopener noreferrer"><i class="fab fa-instagram" aria-hidden="true"></i><span class="sr-only">Instagram</span></a>
-              <a href="https://www.linkedin.com/in/vishwajit-sutar-2393a8331" class="social-link" rel="noopener noreferrer"><i class="fab fa-linkedin-in" aria-hidden="true"></i><span class="sr-only">LinkedIn</span></a>
-              <a href="https://youtube.com/@inventor-vishu" class="social-link" rel="noopener noreferrer"><i class="fab fa-youtube" aria-hidden="true"></i><span class="sr-only">YouTube</span></a>
+              <a href="#" class="social-link" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://www.instagram.com/inventor_vishu?igsh=aDRyNnlsYnFlMGZ5"
+                 class="social-link" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+              <a href="https://www.linkedin.com/in/vishwajit-sutar-2393a8331"
+                 class="social-link" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+              <a href="https://youtube.com/@inventor-vishu?si=UeFyd9U0G59umulM"
+                 class="social-link" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
             </div>
           </div>
 
           <div class="contact-form">
-            <form id="contactForm" novalidate>
+            <form id="contactForm" novalidate autocomplete="on">
               <div class="form-group">
                 <label for="contactName">Name*</label>
-                <input type="text" id="contactName" name="contactName" required autocomplete="name" />
+                <input type="text" id="contactName" name="contactName" required
+                       autocomplete="name" />
                 <span class="error-message" aria-live="polite"></span>
               </div>
 
               <div class="form-group">
                 <label for="contactEmail">Email*</label>
-                <input type="email" id="contactEmail" name="contactEmail" required autocomplete="email" />
+                <input type="email" id="contactEmail" name="contactEmail" required
+                       autocomplete="email" />
                 <span class="error-message" aria-live="polite"></span>
               </div>
 
@@ -315,14 +321,17 @@
     </section>
   </main>
 
-  <!-- ========== FOOTER ========= -->
+  <!-- ========= FOOTER ========= -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-about">
-          <a href="#home" class="logo">Cre8<span>Tonics</span></a>
+          <a href="#" class="logo">Cre8<span>Tonics</span></a>
           <p class="tagline">Innovating Electronics, One Project at a Time</p>
-          <p class="about-text">Cre8Tonics specializes in custom electronics projects and high‑quality products for makers, hobbyists and professionals.</p>
+          <p class="about-text">
+            Cre8Tonics specialises in custom electronics projects and high-quality
+            products for makers, hobbyists and professionals.
+          </p>
         </div>
 
         <div class="footer-links">
@@ -332,21 +341,23 @@
             <li><a href="#projects">Projects</a></li>
             <li><a href="#products">Products</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Services</a></li>
           </ul>
         </div>
 
         <div class="footer-contact">
           <h3>Contact Info</h3>
           <ul>
-            <li><i class="fas fa-envelope" aria-hidden="true"></i> cre8tonic.tech@gmail.com</li>
-            <li><i class="fas fa-phone-alt" aria-hidden="true"></i> +91 82628 54753</li>
-            <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i> PUNE 412201</li>
+            <li><i class="fas fa-envelope"></i> cre8tonic.tech@gmail.com</li>
+            <li><i class="fas fa-phone-alt"></i> +91 82628 54753</li>
+            <li><i class="fas fa-map-marker-alt"></i> TIPSY NATION, VIVANTA, Loni Kalbhor</li>
           </ul>
         </div>
 
         <div class="footer-newsletter">
           <h3>Newsletter</h3>
-          <p>Subscribe for updates &amp; offers</p>
+          <p>Subscribe for updates and offers</p>
           <form id="newsletterForm" novalidate>
             <div class="form-group">
               <input type="email" placeholder="Your Email" required autocomplete="email" />
@@ -357,108 +368,33 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2025 Cre8Tonics. All rights reserved.</p>
+        <p>&copy; 2024 Cre8Tonics. All rights reserved.</p>
         <div class="footer-social">
-          <a href="https://facebook.com" rel="noopener noreferrer"><i class="fab fa-facebook-f" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
-          <a href="https://www.instagram.com/inventor_vishu?igsh=aDRyNnlsYnFlMGZ5" rel="noopener noreferrer"><i class="fab fa-instagram" aria-hidden="true"></i><span class="sr-only">Instagram</span></a>
-          <a href="https://www.linkedin.com/in/vishwajit-sutar-2393a8331" rel="noopener noreferrer"><i class="fab fa-linkedin-in" aria-hidden="true"></i><span class="sr-only">LinkedIn</span></a>
-          <a href="https://youtube.com/@inventor-vishu" rel="noopener noreferrer"><i class="fab fa-youtube" aria-hidden="true"></i><span class="sr-only">YouTube</span></a>
+          <a href="#" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/inventor_vishu?igsh=aDRyNnlsYnFlMGZ5"
+             rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/in/vishwajit-sutar-2393a8331"
+             rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://youtube.com/@inventor-vishu?si=UeFyd9U0G59umulM"
+             rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- WhatsApp Float Button -->
-  <a href="https://wa.me/918262854753?text=Hi,%20I'm%20interested%20in%20a%20custom%20project%20from%20Cre8Tonics." class="whatsapp-float" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp" loading="lazy" width="48" height="48" />
+  <!-- WhatsApp CTA -->
+  <a href="https://wa.me/918262854753?text=Hi,%20I'm%20interested%20in%20a%20custom%20project."
+     class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp" />
   </a>
 
-  <!-- Lightbox Container -->
+  <!-- Lightbox -->
   <div class="lightbox" hidden>
-    <button class="close-btn" aria-label="Close image">&times;</button>
-    <img class="lightbox-img" alt="Enlarged product image" />
+    <span class="close-btn" aria-label="Close image">&times;</span>
+    <img class="lightbox-img" alt="Zoomed product" />
   </div>
 
-  <!-- ========= PRODUCTS DATA & RENDER ========= -->
-  <script>
-    const products = [
-      {
-        id: 1,
-        name: "Smart Patient Assistance System using Flex Sensors & Arduino/ESP – Glove-Based Gesture Control",
-        img: "https://res.cloudinary.com/dtjjgiitl/image/upload/q_auto:good,f_auto,fl_progressive/v1752399304/q4kqmzzrmar5hcbguroo.jpg",
-        rating: 4.5,
-        price: 4000,
-        description: "Helps patients with limited mobility communicate using hand gestures. Powered by Arduino Uno or ESP8266 and flex sensors, with an LCD/OLED display."
-      },
-      {
-        id: 2,
-        name: "Obstacle Avoiding Robot using Arduino & ESP8266 – Smart Robotics Kit",
-        img: "https://res.cloudinary.com/dtjjgiitl/image/upload/q_auto:good,f_auto,fl_progressive/v1752399316/fgcvdzvt9oa5rwgsyuo3.jpg",
-        rating: 4.0,
-        price: 3000,
-        description: "Autonomous robot that detects and avoids obstacles with ultrasonic sensors. ESP8266 enables IoT monitoring/control."
-      },
-      {
-        id: 3,
-        name: "Mobile Signal / RF Detector using Germanium Diode – Detect 4G Signals with LED Indicator",
-        img: "https://res.cloudinary.com/dtjjgiitl/image/upload/q_auto:good,f_auto,fl_progressive/v1752399665/beoawn1mlk9zpy2wyjph.jpg",
-        rating: 5.0,
-        price: 1500,
-        description: "Detects high‑frequency RF signals (2G–5G) and lights an LED when activity is detected. Educational RF project."
-      },
-      // ... add remaining products here following the same structure ...
-    ];
-
-    const productGrid = document.getElementById("productGrid");
-
-    function renderStars(rating) {
-      const fullStars = Math.floor(rating);
-      const halfStar = rating % 1 >= 0.5;
-      let html = "";
-      for (let i = 0; i < 5; i++) {
-        if (i < fullStars) html += '<i class="fas fa-star"></i>';
-        else if (i === fullStars && halfStar) html += '<i class="fas fa-star-half-alt"></i>';
-        else html += '<i class="far fa-star"></i>';
-      }
-      return html + `<span>${rating}</span>`;
-    }
-
-    function createCard(p) {
-      const article = document.createElement("article");
-      article.className = "product-card";
-      article.innerHTML = `
-        <div class="product-image">
-          <img src="${p.img}" alt="${p.name}" loading="lazy" width="320" height="240" />
-        </div>
-        <div class="product-info">
-          <h3>${p.name}</h3>
-          <div class="rating">${renderStars(p.rating)}</div>
-          <p class="product-description">${p.description}</p>
-          <div class="product-footer">
-            <span class="price">₹${p.price.toLocaleString()}</span>
-            <button class="btn btn-primary quick-view" data-product="${p.id}">Quick View</button>
-          </div>
-        </div>`;
-      return article;
-    }
-
-    function renderProducts(list) {
-      productGrid.innerHTML = "";
-      list.forEach(p => productGrid.appendChild(createCard(p)));
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      renderProducts(products);
-
-      // simple search filter
-      document.querySelector(".search-box").addEventListener("submit", e => {
-        e.preventDefault();
-        const term = document.getElementById("productSearch").value.toLowerCase();
-        const filtered = products.filter(p => p.name.toLowerCase().includes(term));
-        renderProducts(filtered.length ? filtered : products);
-      });
-    });
-  </script>
+  <!-- Main JS -->
+  <script src="script.js" defer></script>
 </body>
-
 </html>
